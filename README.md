@@ -49,7 +49,7 @@ This is a step-by-step guide on running the `bcbio` pipeline on O2. Old orchestr
 * Move your fastq files to this directory. (Using `mv` command.)
 
 * Examine `yaml_O2.yaml` and ensure that it has the correct specification. Most of the time, the default content should suffice. Change it only if instructed by the sequencing core.
-   - **NOTE: Add `disambiguate: [mm10]` under the `algorithm` keyword in the .yaml file when working with samples derived from mice xenografts. With this option enables, the aligner attempts to filter out reads belonging to the mouse genome.**
+   - **NOTE: Add `disambiguate: [mm10]` under the `algorithm` keyword in the .yaml file when working with samples derived from mice xenografts. With this option enabled, the aligner attempts to filter out reads belonging to the mouse genome.**
 
 * Edit `sample_description.csv` (using `nano sample_description.csv`) to match your fastq files. Columns `samplename` and `description` are required. The first should match the filenames of your fastq files. The second column is often set to be the plate position, but can be any abbreviated identifier of your sample. All other columns are optional. The `sample_description.csv` file in this GitHub repository includes an `Index` column as an example. Work with the sequencing core that produced your fastq files to determine if you need additional columns.
 
@@ -66,12 +66,12 @@ This is a step-by-step guide on running the `bcbio` pipeline on O2. Old orchestr
 * Running this setup creates a project directory and the following subdirectories inside of that: `work`, `config`.
     - NOTE: The project directory will be named `sample_description`. You can control that by substituting a different name in all filenames and commands above.
     
-* Descend into the `work` subdirectory of your project (by default, this is done using `cd sample_description/work`). 
+* Descend into the `work` subdirectory of your project (by default, this is done using `cd sample_description/work`). Move `submit_bcbio.sh` (which is currently two directories above your current location, where your fastq files are) to the current directory, using `mv ../../submit_bcbio.sh .`
     - NOTE: If you changed the name of your project from `sample_description` to something else, edit `submit_bcbio.sh` and specify the correct name in place of `../config/sample_description.yaml`.The path has to point to an actual file in the `config` subdirectory.
 
-* From the `work` directory, submit the job to O2 using the following command:
+* Submit the job to O2 using the following command:
     ```
-    sbatch ../../submit_bcbio.sh
+    sbatch submit_bcbio.sh
     ```
 * Bcbio will give you a .count file as count table generated from featureCounts. This could be used as direct input to the `edge.R` script (see Running Differential Expression section below). The counts file will be located in `../final/2017-10-19_sample_description/combined.counts`, but depending on the current date and the contents of your `sample_description.csv`, the actual path may vary.
 
